@@ -13,111 +13,290 @@ public class numberGuessingGame {
         int yourNumber; // number which is input by the user
         int tries; // number of times when user tries to guess the number
         int limitedAttempts; // number of maximum tries user can use before ending the game
+        int timesGuessed;  // number of times user correctly guessed the number
+        int secretNumber;  // number which is expected to be guessed by user
 
-        switch (query){
-
-            // Easy mode (15)
-
-            case 1:
-                limitedAttempts = 6;
+        // Easy mode (15)
+        // Medium mode (30)
+        // Hard mode (75)
+        // Expert mode (150)
+        switch (query) {
+            case 1 -> {
+                limitedAttempts = 6;  // aiming for 6 attempts
                 tries = 0;
-                int secretNumber = numberShuffling("Easy");
+                timesGuessed = 0;
+                secretNumber = numberShuffling("Easy");
                 System.out.println("Mode: Easy\nChoose a number between 1 and 15.");
                 do {
-                    System.out.println("Your Guess: ");
-                    yourNumber = input.nextInt();
-                    tries++;
-                    if(tries >= limitedAttempts){
+                    if (limitedAttempts - tries == 0) {
                         System.out.println("No more attempts, better luck next time.");
                         System.out.println("The correct number was " + secretNumber);
-                        break;
-                    } else if (yourNumber == secretNumber){
-                        System.out.println("Good job!");
-                        displayTries(tries);
+                        score(timesGuessed, "Easy");
                         break;
                     } else {
-                        wordHint("Easy", yourNumber, secretNumber);
+                        System.out.println("Your Guess: ");
+                        yourNumber = input.nextInt();
+                        if (yourNumber == secretNumber) {  // options for later
+                            timesGuessed++;
+                            tries--;
+                            System.out.println("Good job!");
+                            System.out.println("Continue into the survival mode?");
+                            String ifContinuing = input.next();
+
+                            if (ifContinuing.equals("no") || ifContinuing.equals("No")) {  // succeed
+                                displayTries(tries);
+                                System.out.println("Good job!");
+                                score(timesGuessed, "Easy");
+                                break;
+
+                            } else if (ifContinuing.equals("yes") || ifContinuing.equals("Yes")) {
+                                int roundNumber = 1;
+                                secretNumber = numberShuffling("Easy");
+                                System.out.println("Round 1");
+                                do {
+                                    if (limitedAttempts - tries == 0) {
+                                        System.out.println("\nno more attempts, better luck next time.\n");
+                                        System.out.println("The correct number was " + secretNumber);
+                                        System.out.println("You made it into Round " + roundNumber);
+                                        System.out.println("Good job!");
+                                        score(timesGuessed, "Easy");
+                                        break;
+                                    } else {
+                                        System.out.println("Your Guess: ");
+                                        System.out.println(secretNumber);
+                                        yourNumber = input.nextInt();
+                                        if (yourNumber == secretNumber) {  // succeed but not over, rounds
+                                            roundNumber++;
+                                            tries--;
+                                            timesGuessed++;
+                                            System.out.println("Good job!");
+                                            System.out.println("Round " + roundNumber);
+                                            secretNumber = numberShuffling("Easy");
+
+                                        } else {
+                                            tries++;
+                                            wordHint("Easy", yourNumber, secretNumber);
+                                            triesLeft(tries, limitedAttempts);
+                                        }
+                                    }
+                                } while (true);
+                                break;
+                            }
+                        } else {
+                            tries++;
+                            wordHint("Easy", yourNumber, secretNumber);
+                            triesLeft(tries, limitedAttempts);
+                        }
                     }
                 } while (true);
-                break;
-
-            // Medium mode (30)
-
-            case 2:
-                limitedAttempts = 12;
+            }
+            case 2 -> {
+                limitedAttempts = 11;  // aiming for 12 attempts
                 tries = 0;
+                timesGuessed = 0;
                 secretNumber = numberShuffling("Medium");
                 System.out.println("Mode: Medium\nChoose a number between 1 and 30.");
                 do {
-                    System.out.println("Your Guess: ");
-                    yourNumber = input.nextInt();
-                    tries++;
-                    if(tries >= limitedAttempts){
+                    if (limitedAttempts - tries == 0) {
                         System.out.println("No more attempts, better luck next time.");
                         System.out.println("The correct number was " + secretNumber);
-                        break;
-                    } else if (yourNumber == secretNumber){
-                        System.out.println("Good job!");
-                        displayTries(tries);
+                        score(timesGuessed, "Medium");
                         break;
                     } else {
-                        wordHint("Medium", yourNumber, secretNumber);
+                        System.out.println("Your Guess: ");
+                        yourNumber = input.nextInt();
+                        if (yourNumber == secretNumber) {   // cfh
+                            timesGuessed++;
+                            tries--;
+                            System.out.println("Good job!");
+                            System.out.println("Continue into the survival mode?");
+                            String ifContinuing = input.next();
+
+                            if (ifContinuing.equals("no") || ifContinuing.equals("No")) {
+                                displayTries(tries);
+                                System.out.println("Good job!");
+                                score(timesGuessed, "Medium");
+                                break;
+
+                            } else if (ifContinuing.equals("yes") || ifContinuing.equals("Yes")) {
+                                int roundNumber = 1;
+                                secretNumber = numberShuffling("Medium");
+                                System.out.println("Round 1");
+                                do {
+                                    if (limitedAttempts - tries == 0) {
+                                        System.out.println("No more attempts, better luck next time.");
+                                        System.out.println("The correct number was " + secretNumber);
+                                        System.out.println("You made it into Round " + roundNumber);
+                                        System.out.println("Good job!");
+                                        score(timesGuessed, "Easy");
+                                        break;
+                                    } else {
+                                        System.out.println("Your Guess: ");
+                                        yourNumber = input.nextInt();
+                                        if (yourNumber == secretNumber) {
+                                            roundNumber++;
+                                            tries--;
+                                            timesGuessed++;
+                                            System.out.println("Good job!");
+                                            System.out.println("Round " + roundNumber);
+                                            secretNumber = numberShuffling("Medium");
+                                        } else {
+                                            tries++;
+                                            wordHint("Medium", yourNumber, secretNumber);
+                                        }
+                                    }
+
+                                } while (true);
+                                break;  // cft
+                            }
+                        } else {
+                            tries++;
+                            wordHint("Medium", yourNumber, secretNumber);
+                            triesLeft(tries, limitedAttempts);
+                        }
                     }
                 } while (true);
-                break;
-
-            // Hard mode (75)
-
-            case 3:
-                limitedAttempts = 17;
+            }
+            case 3 -> {
+                limitedAttempts = 16;  // aiming for 17 attempts
                 tries = 0;
+                timesGuessed = 0;
                 secretNumber = numberShuffling("Hard");
                 System.out.println("Mode: Hard\nChoose a number between 1 and 75.");
                 do {
-                    System.out.println("Your Guess: ");
-                    yourNumber = input.nextInt();
-                    tries++;
-                    if(tries >= limitedAttempts){
+                    if (limitedAttempts - tries == 0) {
                         System.out.println("No more attempts, better luck next time.");
                         System.out.println("The correct number was " + secretNumber);
-                        break;
-                    } else if (yourNumber == secretNumber){
-                        System.out.println("Good job!");
-                        displayTries(tries);
+                        score(timesGuessed, "Hard");
                         break;
                     } else {
-                        wordHint("Hard", yourNumber, secretNumber);
+                        System.out.println("Your Guess: ");
+                        yourNumber = input.nextInt();
+                        if (yourNumber == secretNumber) {  // cfh
+                            timesGuessed++;
+                            tries--;
+                            System.out.println("Good job!");
+                            System.out.println("Continue into the survival mode?");
+                            String ifContinuing = input.next();
+
+                            if (ifContinuing.equals("no") || ifContinuing.equals("No")) {
+                                displayTries(tries);
+                                System.out.println("Good job!");
+                                score(timesGuessed, "Hard");
+                                break;
+
+                            } else if (ifContinuing.equals("yes") || ifContinuing.equals("Yes")) {
+                                int roundNumber = 1;
+                                secretNumber = numberShuffling("Hard");
+                                System.out.println("Round 1");
+                                do {
+                                    if (limitedAttempts - tries == 0) {
+                                        System.out.println("No more attempts, better luck next time.");
+                                        System.out.println("The correct number was " + secretNumber);
+                                        System.out.println("You made it into Round " + roundNumber);
+                                        System.out.println("Good job!");
+                                        score(timesGuessed, "Hard");
+                                        break;
+                                    } else {
+                                        System.out.println("Your Guess: ");
+                                        yourNumber = input.nextInt();
+                                        if (yourNumber == secretNumber) {
+                                            timesGuessed++;
+                                            roundNumber++;
+                                            tries--;
+                                            System.out.println("Good job!");
+                                            System.out.println("Round " + roundNumber);
+                                            secretNumber = numberShuffling("Hard");
+
+                                        } else {
+                                            tries++;
+                                            wordHint("Hard", yourNumber, secretNumber);
+                                            triesLeft(tries, limitedAttempts);
+                                        }
+                                    }
+
+                                } while (true);
+                                break;  // cft
+                            }
+                        } else {
+                            tries++;
+                            wordHint("Hard", yourNumber, secretNumber);
+                            triesLeft(tries, limitedAttempts);
+                        }
                     }
                 } while (true);
-                break;
-
-            // Expert mode (150)
-
-            case 4:
-                limitedAttempts = 25;
+            }
+            case 4 -> {
+                limitedAttempts = 24;  // aiming for 25 attempts
                 tries = 0;
+                timesGuessed = 0;
                 secretNumber = numberShuffling("Expert");
                 System.out.println("Mode: Expert\nChoose a number between 1 and 150.");
                 do {
-                    System.out.println("Your Guess: ");
-                    yourNumber = input.nextInt();
-                    tries++;
-                    if(tries >= limitedAttempts){
+
+                    if (limitedAttempts - tries == 0) {
                         System.out.println("No more attempts, better luck next time.");
                         System.out.println("The correct number was " + secretNumber);
-                        break;
-                    } else if (yourNumber == secretNumber){
-                        System.out.println("Good job!");
-                        displayTries(tries);
+                        score(timesGuessed, "Expert");
                         break;
                     } else {
-                        wordHint("Expert", yourNumber, secretNumber);
+                        System.out.println("Your Guess: ");
+                        yourNumber = input.nextInt();
+                        if (yourNumber == secretNumber) {  // cfh
+                            timesGuessed++;
+                            tries--;
+                            System.out.println("Good job!");
+                            System.out.println("Continue into the survival mode?");
+                            String ifContinuing = input.next();
+
+                            if (ifContinuing.equals("no") || ifContinuing.equals("No")) {
+                                displayTries(tries);
+                                System.out.println("Good job!");
+                                score(timesGuessed, "Expert");
+                                break;
+
+                            } else if (ifContinuing.equals("yes") || ifContinuing.equals("Yes")) {
+                                int roundNumber = 1;
+                                secretNumber = numberShuffling("Expert");
+                                System.out.println("Round 1");
+                                do {
+                                    if (limitedAttempts - tries == 0) {
+                                        System.out.println("No more attempts, better luck next time.");
+                                        System.out.println("The correct number was " + secretNumber);
+                                        System.out.println("You made it into Round " + roundNumber);
+                                        System.out.println("Good job!");
+                                        score(timesGuessed, "Expert");
+                                        break;
+                                    } else {
+                                        System.out.println("Your Guess: ");
+                                        yourNumber = input.nextInt();
+                                        if (yourNumber == secretNumber && tries != 0) {
+                                            timesGuessed++;
+                                            roundNumber++;
+                                            tries--;
+                                            System.out.println("Good job!");
+                                            System.out.println("Round " + roundNumber);
+                                            secretNumber = numberShuffling("Expert");
+
+                                        } else if (tries != 0) {
+                                            tries++;
+                                            wordHint("Expert", yourNumber, secretNumber);
+                                            triesLeft(tries, limitedAttempts);
+                                        }
+                                    }
+
+                                } while (true);
+                                break;  // cft
+                            }
+                        } else {
+                            tries++;
+                            wordHint("Expert", yourNumber, secretNumber);
+                            triesLeft(tries, limitedAttempts);
+                        }
                     }
                 } while (true);
-                break;
-
-            default:
-                System.out.println("Invalid input. Try again.");
+            }
+            default -> System.out.println("Invalid input. Try again.");
         }
     }
 
@@ -174,11 +353,16 @@ public class numberGuessingGame {
                     System.out.println("You are so close!");
                 }
                 break;
-
         }
     }
-
-    public int numberShuffling(String difficulty){
+    public void triesLeft(int tries, int triesLimit){
+        int num = triesLimit - tries;
+        System.out.println("Tries: " + num);
+    }
+    /*
+            Randomising numbers for each game mode and round
+    */
+    public int numberShuffling(String difficulty) {
         int num;
         switch (difficulty) {
             case "Easy" -> num = 1 + random.nextInt(15);
@@ -192,6 +376,18 @@ public class numberGuessingGame {
 
     public void displayTries(int tries){
         System.out.println("You needed " + tries + " tries to guess the right number.");
+    }
+
+    public void score(int timesGuessed, String difficulty){
+        String string;
+        switch (difficulty){
+            case "Easy" -> string = ("Final score: " + (timesGuessed * 25));
+            case "Medium" -> string = ("Final score: " + (timesGuessed * 25 + 50));
+            case "Hard" -> string = ("Final score: " + (timesGuessed * 25 + 100));
+            case "Expert" -> string = ("Final score: " + (timesGuessed * 25 + 150));
+            default -> string = ("Invalid input");
+        }
+        System.out.println(string);
     }
 
     public static void main(String[] args){
