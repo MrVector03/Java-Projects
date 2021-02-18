@@ -6,16 +6,7 @@ public class SimpleBankingSystem {
     String surname;
     int balance;
     String name_bank;
-
-
-    /*
-    public SimpleBankingSystem(String FirstName, String LastName, String BankName, Integer money){
-        name = FirstName;
-        surname = LastName;
-        name_bank = BankName;
-        balance = money;
-    }
-    */
+    
 
     public void showStats(){
         System.out.println("\n$" + balance);
