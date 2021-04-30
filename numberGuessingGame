@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class numberGuessingGame() {
+    Scanner input = new Scanner(System.in);
+    public void startGame() {
+        System.out.println("Choose difficulty: \nEasy - 1\nMedium - 2\nHard - 3\nExpert - 4\n");
+        int query = input.nextInt();
+        if (query == 1) {
+            // easyMode() goes here
+        } else if (query == 2) {
+            // mediumMode() goes here
+        } else if (query == 3) {
+            // hardMode() goes here
+        } else if (query == 4) {
+            // expertMode() goes here
+        } else {
+            System.out.println("Invalid input, please try again.");
+        }
+
+    }
+
+    public static void main(String[] args){
+        startGame();
+    }
+}
